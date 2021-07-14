@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etocrm.dao.db2.ZookeeperDao">
+
+    <insert id="insert" parameterType="com.etocrm.pojo.ZookeeperData" >
+     insert  ignore into JOB_ZOOKEEPER_LOG(job_name, job_paramter, con, username) values(#{jobName}, #{jobParamter}, #{con}, #{username})
+    </insert>
+    <update id="update" parameterType="com.etocrm.pojo.ZookeeperData" >
+     update   JOB_ZOOKEEPER_LOG    set  status=#{status} where  job_name=#{jobName}   and   status='0'
+    </update>
+    
+   </mapper>

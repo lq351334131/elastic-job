@@ -1,0 +1,100 @@
+<div class="index-content">
+    <section class="content-header">
+        <h4 data-lang="sidebar-job-dimension"></h4>
+        <ol class="breadcrumb">
+            <li class="active"><i class="fa fa-tasks" data-lang="sidebar-job-operation"></i></li>
+            <li class="active" data-lang="sidebar-job-dimension"></li>
+        </ol>
+    </section>
+    <section class="content">
+        <table id="jobs-status-overview-tbl" data-pagination="true" data-page-list="[10, 20, 50, 100]" data-search="true" data-show-refresh="true" data-show-toggle="true" data-striped="true">
+            <thead>
+            <tr>
+                <th data-field="jobName" data-sortable="true"><span data-lang="job-name"></span></th>
+                <th data-field="shardingTotalCount" data-sortable="true"><span data-lang="job-sharding-total-count"></span></th>
+                <th data-field="cron" data-sortable="true"><span data-lang="job-cron"></span></th>
+                <th data-field="description" data-sortable="true"><span data-lang="job-description"></span></th>
+                <th data-field="status" data-sortable="true" data-formatter="statusFormatter"><span data-lang="status"></span></th>
+                <th data-field="operation" data-formatter="generateOperationButtons"><span data-lang="operation"></span></th>
+            </tr>
+            </thead>
+        </table>
+        <button type="button" class="btn-xs btn-success" data-toggle="modal" id="add-register" data-lang="operation-add"></button>
+    </section>
+</div>
+<div class="modal" id="data-update-job" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="update-model-size">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h2 class="modal-title" data-lang="update-job"></h2>
+                    <div id="job-overviews-name" hidden="hidden"></div>
+                </div>
+                <div class="modal-body" id="update-job-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add-reg-center" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="close-add-reg-form" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-lang="add-job-name"></h4>
+            </div>
+            <form id="reg-center-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="jobName" class="control-label" data-lang="job-name"></label>
+                        <input type="text" class="form-control" id="jobName" name="jobName" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobType" class="control-label" data-lang="job-type"></label>
+                       <select id="jobType" name="jobType" class="form-control" data-toggle="tooltip" data-placement="bottom" data-original-title="" title="">
+                        <option value="SIMPLE" data-lang="simple" ></option>
+                         <!-- <option value="DATAFLOW" data-lang="dataflow"></option>
+                       <option value="SCRIPT" data-lang="script"></option> -->
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cron" class="control-label" data-lang="job-cron"></label>
+                        <input type="text" class="form-control" id="cron" name="cron" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shardingTotalCount" class="control-label" data-lang="placeholder-sharding-total-count"></label>
+                        <input type="number" min=1 max=9 id="sharding-total-count" name="shardingTotalCount" class="form-control" data-toggle="tooltip" data-placement="bottom" />
+                    </div>
+                     <div class="form-group">
+                        <label for="url" class="control-label" data-lang="url"></label>
+                        <input type="text" class="form-control" id="url" name="url" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="control-label" data-lang="type"></label>
+                       <select id="type" name="type" class="form-control" data-toggle="tooltip" data-placement="bottom" data-original-title="" title="">
+                        <option value="GET" data-lang="GET" ></option>
+                        <option value="POST" data-lang="POST"></option>
+                    </select>
+                    </div>
+                       <div class="form-group">
+                                  <button id="addButton" type="button" class="btn-xs btn-primary" data-lang="operation-add"></button>
+                        </div>
+                     <div class="form-group" id="addInput1">
+                                                                 参数名称:<input type="text" class="" id="n1" name="name1">
+                                                                  参数值: <input type="text" class="" id="v1" name="value">
+                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="add-reg-center-btn" type="submit" class="btn-xs btn-primary" data-lang="operation-submit"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="lib/bootstrap-table/bootstrap-table.js"></script>
+<script src="lib/BootstrapValidator/js/bootstrapValidator.js"></script>
+<script src="lib/BootstrapValidator/js/bootstrapValidator_zh_CN.js"></script>
+<script src="js/util/common.js"></script>
+<script src="js/status/job/jobs_status_overview.js"></script>

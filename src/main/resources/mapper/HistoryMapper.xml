@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etocrm.dao.db2.HistroyDao">
+
+    <resultMap id="BaseResultMap" type="com.etocrm.pojo.HistroyTrace" >
+               <result column="id" property="id" />
+                <result column="job_name" property="jobName" />
+                <result column="task_id" property="taskId" />
+                <result column="hostname" property="hostname" />
+                <result column="ip" property="ip" />
+                <result column="sharding_item" property="shardingItem" />
+                <result column="execution_source" property="executionSource" />
+                <result column="failure_cause" property="failureCause" />
+                <result column="is_success" property="isSuccess" />
+                <result column="start_time" property="startTime" />
+                <result column="complete_time" property="completeTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+               id,
+                job_name,
+                task_id,
+                hostname,
+                ip,
+                sharding_item,
+                execution_source,
+                failure_cause,
+                is_success,
+                start_time,
+                complete_time
+    </sql>
+    
+    <sql id="if_where">
+       <if test ='null != jobName and ""!=jobName'>
+             and   job_name=#{jobName}
+        </if>
+        <if test ='null != ip and  ""!=ip'>
+             and  ip= #{ip}
+        </if>
+        <if test ='null != startTime'>
+             and  start_time &gt;=  #{startTime}
+        </if>
+       <if test ='null != endTime'>
+             and  start_time    &lt;=  #{endTime}
+       </if>
+       <if test ='null != isSuccess'>
+             and   is_success=#{isSuccess}
+       </if>
+       
+       
+   </sql>
+
+
+    <select id="getTrace" resultMap="BaseResultMap"  parameterType="com.etocrm.vo.HistroyTraceVo">
+        SELECT <include refid="Base_Column_List" />
+        FROM JOB_EXECUTION_LOG  where  1=1
+        <include refid="if_where" />
+        <!-- <if test ='null != sort and ""!=sort  and  null != order and ""!=order '>
+            order  by   ${sort}  ${order}
+       </if> -->
+       <if test ='null != oredrbySql and ""!=oredrbySql'>
+            ${oredrbySql}
+       </if>
+       
+        <choose>
+        <when test="page >0   and  per_page >0">
+            limit    ${per_page*(page-1)} ,#{per_page}
+        </when>
+        <otherwise>
+            limit   10
+        </otherwise>
+        </choose>         
+       
+    </select>
+
+    <select id="countTrace" resultType="java.lang.Integer" parameterType="com.etocrm.vo.HistroyTraceVo">
+        SELECT count(1)
+        FROM JOB_EXECUTION_LOG  where  1=1
+        <include refid="if_where" />
+        
+    </select>
+    
+    <resultMap id="BaseResultMap1" type="com.etocrm.pojo.HistoryState" >
+                <result column="id" property="id" />
+                <result column="job_name" property="jobName" />
+                <result column="original_task_id" property="originalTaskId" />
+                <result column="task_id" property="taskId" />
+                <result column="slave_id" property="slaveId" />
+                <result column="source" property="source" />
+                <result column="execution_type" property="executionType" />
+                <result column="sharding_item" property="shardingItem" />
+                <result column="state" property="state" />
+                <result column="message" property="message" />
+                <result column="creation_time" property="creationTime" />
+    </resultMap>
+    
+        <sql id="Base_Column_List1">
+    
+               id,
+                job_name,
+                original_task_id,
+                task_id,
+                slave_id,
+                source,
+                execution_type,
+                sharding_item,
+                state,
+                message,
+                creation_time
+          </sql>
+    
+    <sql id="if_where1">
+       <if test ='null != jobName and ""!=jobName'>
+             and   job_name=#{jobName}
+        </if>
+        
+        <if test ='null != startTime'>
+             and  creation_time &gt;=  #{startTime}
+        </if>
+       <if test ='null != endTime'>
+             and  creation_time    &lt;=  #{endTime}
+       </if>
+       <if test ='null != state and ""!= state'>
+             and   state=#{state}
+       </if>
+       
+       
+   </sql>
+    
+    <select id="getState" resultMap="BaseResultMap1"  parameterType="com.etocrm.vo.HistoryStateVo">
+        SELECT <include refid="Base_Column_List1" />
+        FROM JOB_STATUS_TRACE_LOG  where  1=1
+        <include refid="if_where1" /> 
+         <if test ='null != oredrbySql and ""!=oredrbySql'>
+            ${oredrbySql}
+       </if>
+       <choose>
+        <when test="page >0   and  per_page >0">
+            limit    ${per_page*(page-1)} ,#{per_page}
+        </when>
+        <otherwise>
+            limit   10
+        </otherwise>
+      </choose>
+        
+    </select>
+
+    <select id="countState" resultType="java.lang.Integer" parameterType="com.etocrm.vo.HistoryStateVo">
+        SELECT count(1)
+        FROM JOB_STATUS_TRACE_LOG  where  1=1
+        <include refid="if_where1" />
+       
+    </select>
+    
+        <select id="getTrace1" resultMap="BaseResultMap"  parameterType="com.etocrm.vo.HistroyTraceVo">
+        SELECT 
+        DISTINCT  JOB_NAME
+        FROM JOB_EXECUTION_LOG  where  1=1
+        <include refid="if_where" />
+       <if test ='null != oredrbySql and ""!=oredrbySql'>
+            ${oredrbySql}
+       </if>
+       
+        <choose>
+        <when test="page >0   and  per_page >0">
+            limit    ${per_page*(page-1)} ,#{per_page}
+        </when>
+        <otherwise>
+            limit   10
+        </otherwise>
+        </choose>         
+       
+    </select>
+
+    <select id="countTrace1" resultType="java.lang.Integer" parameterType="com.etocrm.vo.HistroyTraceVo">
+        SELECT 
+        count(DISTINCT job_name)
+        FROM JOB_EXECUTION_LOG  where  1=1
+        <include refid="if_where" />
+    </select>
+    
+    <select id="getState1" resultMap="BaseResultMap1"  parameterType="com.etocrm.vo.HistoryStateVo">
+        SELECT DISTINCT  JOB_NAME
+        FROM JOB_STATUS_TRACE_LOG  where  1=1
+        <include refid="if_where1" /> 
+         <if test ='null != oredrbySql and ""!=oredrbySql'>
+            ${oredrbySql}
+       </if>
+       <choose>
+        <when test="page >0   and  per_page >0">
+            limit    ${per_page*(page-1)} ,#{per_page}
+        </when>
+        <otherwise>
+            limit   10
+        </otherwise>
+      </choose>
+        
+    </select>
+
+    <select id="countState1" resultType="java.lang.Integer" parameterType="com.etocrm.vo.HistoryStateVo">
+        SELECT  count(DISTINCT job_name)
+        FROM JOB_STATUS_TRACE_LOG  where  1=1
+        <include refid="if_where1" />
+       
+    </select>
+    
+
+</mapper>

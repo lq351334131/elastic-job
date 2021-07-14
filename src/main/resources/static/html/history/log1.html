@@ -1,0 +1,54 @@
+<div class="index-content">
+    <section class="content-header">
+        <h4 data-lang="log"></h4>
+        <ol class="breadcrumb">
+            <li class="active"><i class="fa fa-history" data-lang="log"></i></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div id="jobExecLogToolbar">
+            <div class="form-inline" role="form">
+                <div class="form-group toolbar">
+                    <label for="job-name" data-lang="job-name"></label>
+                    <input type="text" class="form-control" id="job-name" placeholder=""  value="">
+                </div>
+            </div>
+        </div>
+        <table id="job-exec-details-table"
+            data-show-refresh="true"
+            data-show-toggle="true"
+            data-striped="true"
+            data-toggle="table"
+            data-url="api/log1"
+            data-flat="true"
+            data-click-to-select="true"
+            data-row-style="rowStyle"
+            data-query-params="queryParams"
+            data-query-params-type="notLimit"
+            data-side-pagination="server"
+            data-pagination="true"
+            data-page-list="[10, 20, 50, 100]"
+            data-show-columns="true"
+            data-toolbar="#jobExecLogToolbar">
+            <thead>
+                <tr>
+                    <th data-field="jobName" data-sortable="true"><span data-lang="job-name"></span></th>
+                    <th data-field="operation" data-formatter="generateOperationButtons"><span data-lang="operation"></span></th>
+                </tr>
+            </thead>
+        </table>
+    </section>
+</div>
+<script src="lib/bootstrap-table/bootstrap-table.js"></script>
+<script src="lib/daterangepicker/moment.min.js"></script>
+<script src="lib/daterangepicker/daterangepicker.js"></script>
+<script src="lib/input-mask/jquery.inputmask.js"></script>
+<script src="lib/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="lib/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="js/util/formatter.js"></script>
+<script src="js/history/log1.js"></script>
+
+
+
+
+

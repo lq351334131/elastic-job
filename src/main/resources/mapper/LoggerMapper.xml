@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etocrm.dao.db2.LoggerDao">
+
+    <insert id="insertData" parameterType="com.etocrm.pojo.JobRequestLog">
+        insert into JOB_REQUEST_LOG
+        (id,thread_id,request_paramter,response_status_code,
+        response_message,create_time,job_name)
+
+        value (#{id},#{threadId},#{requestParamter},#{responseStatusCode},
+        #{responseMessage},#{createTime},#{jobName})
+
+    </insert>
+
+    <update id="updateCustomizeMessage" parameterType="java.lang.String">
+        update JOB_REQUEST_LOG set customize_message = #{message} where id = #{uid}
+    </update>
+    
+    <select id="count" resultType="java.lang.Integer"  parameterType="com.etocrm.vo.JobRequestLogVo">
+        SELECT 
+      count(1)
+        FROM JOB_REQUEST_LOG  where  1=1
+       <if test="jobName!=null and  jobName!='' ">
+         and job_name=#{jobName}
+       </if>
+       
+    </select>
+    
+    <select id="get" resultType="com.etocrm.pojo.JobRequestLog"   parameterType="com.etocrm.vo.JobRequestLogVo">
+        SELECT  
+          id,
+          thread_id 'threadId',
+          request_paramter 'requestParamter',
+          response_status_code 'responseStatusCode',
+          response_message 'responseMessage',
+          create_time  'createTime',
+          job_name 'jobName',
+          update_time 'updateTime',
+          customize_message 'customizeMessage'
+        FROM JOB_REQUEST_LOG  where  1=1
+        <if test="jobName!=null and jobName!='' ">
+         and job_name=#{jobName}
+       </if>
+       ORDER BY create_time  desc,update_time  desc
+      <choose>
+        <when test="page >0   and  per_page >0">
+            limit    ${per_page*(page-1)} ,#{per_page}
+        </when>
+        <otherwise>
+            limit   10
+        </otherwise>
+      </choose> 
+    </select>
+    
+    
+    <select id="countjob" resultType="java.lang.Integer"  parameterType="com.etocrm.vo.JobRequestLogVo">
+        SELECT 
+       count(DISTINCT job_name)
+        FROM JOB_REQUEST_LOG  where  1=1
+       <if test="jobName!=null and  jobName!='' ">
+         and job_name=#{jobName}
+       </if>
+       
+    </select>
+    
+    <select id="getjob" resultType="com.etocrm.pojo.JobRequestLog"   parameterType="com.etocrm.vo.JobRequestLogVo">
+        SELECT  
+         DISTINCT  JOB_NAME  'jobName'
+        FROM JOB_REQUEST_LOG  where  1=1
+        <if test="jobName!=null and jobName!='' ">
+        and  job_name=#{jobName}
+       </if>
+      <choose>
+        <when test="page >0   and  per_page >0">
+            limit    ${per_page*(page-1)} ,#{per_page}
+        </when>
+        <otherwise>
+            limit   10
+        </otherwise>
+      </choose> 
+    </select>
+    
+      <select id="getId" resultType="com.etocrm.pojo.JobRequestLog"   parameterType="java.lang.String">
+        select 
+         id, 
+        thread_id "threadId",
+        request_paramter "requestParamter",
+        response_status_code  "responseStatusCode",
+        response_message "responseMessage",
+        create_time  "createTime",
+        job_name "jobName",
+        update_time "updateTime"
+         from  JOB_REQUEST_LOG  where  job_name =#{jobName}
+        ORDER BY   create_time  desc ,update_time  desc 
+      </select>
+      
+      
+      <select id="isSend" resultType="java.lang.Integer"  parameterType="com.etocrm.pojo.JobRequestLog">
+        SELECT 
+        count(id)
+        FROM JOB_REQUEST_LOG   
+         where job_name=#{jobName}
+         and  response_message=#{responseMessage}
+         and  DATE_FORMAT(create_time, '%Y-%m-%d')=#{createTime}       
+    </select>
+
+</mapper>
